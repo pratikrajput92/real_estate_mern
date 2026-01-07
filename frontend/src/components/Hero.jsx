@@ -4,7 +4,7 @@ import home from "../assets/home.jpg";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90vh] pt-16 w-full mb-4">
+    <section className="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] pt-20 w-full mb-4">
       
       
       <img
@@ -17,11 +17,11 @@ const Hero = () => {
       <div className="absolute inset-0 bg-black/40"></div>
 
       
-      <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-6 text-white">
-        <h1 className="text-5xl md:text-6xl font-bold mb-4">
+      <div className="relative z-10 max-w-7xl mx-auto h-full flex flex-col justify-center px-4 sm:px-6  text-white text-center lg:text-left">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
           Find Your Dream Home
         </h1>
-        <p className="text-lg md:text-xl mb-6 max-w-2xl">
+        <p className="text-base sm:text-lg md:text-xl mb-6 max-w-2xl mx-auto lg:mx-0">
           Search from hundreds of premium properties across your city
         </p>
 
@@ -31,7 +31,7 @@ const Hero = () => {
       </div>
 
       
-      <div className="absolute bottom-4 md:bottom-10 left-4 right-4 md:left-0 md:right-0 flex justify-center">
+      <div className="  absolute bottom-4 sm:bottom-8 inset-x-0">
         <SearchBar />
       </div>
     </section>

@@ -7,11 +7,11 @@ const PropertyCard = ({ property }) => {
     return null;
   }
   return (
-    <Link to={`/property/${property.id}`} className="border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
+    <Link to={`/property/${property.id}`} className="border  rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
       <img
         src={property.images[0]}
         alt={property.name}
-        className="w-100 h-80 md:w-100 sm:h-70 object-cover"
+        className=" grid w-full lg:h-80  sm:h-[50vh] object-cover"
       />
       <div className="p-4 pt-2">
         <h2 className="font-bold text-xl">{property.name}</h2>

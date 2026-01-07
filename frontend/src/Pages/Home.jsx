@@ -14,7 +14,7 @@ const filteredProperties = filter === "all" ? properties: properties.filter((ite
     <div className="pt-16">
       <Hero/>
       <FilterBar setFilter={setFilter} />
-      <div className="max-w-full  mx-auto px-6 py-12 flex felx-col items-center justify-center gap-8">
+      <div className="max-w-full  mx-auto px-6 py-12 grid lg:grid-cols-3 sm:grid-cols-1   items-center justify-center gap-8">
         {filteredProperties.map((property) => (
           <PropertyCard key={property.id} property={property} />
         ))}

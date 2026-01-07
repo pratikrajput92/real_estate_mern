@@ -63,9 +63,9 @@ const PropertyDetails = () => {
 
         {/* Property ke sath extra featuers */}
         <section title="Amenities">
-          <div className="grid grid-cols-2 md-grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md-grid-cols-3 gap-4 mb-8">
             {property.amenities && property.amenities.map((item, index) => (
-              <div key={index} className="bg-blue-50 text-blue-700 p-3 rounded-lg text-center">
+              <div key={index} className="bg-indigo-200 text-blue-700 p-3 rounded-lg text-center">
                 {item}
               </div>
             ))}
@@ -74,7 +74,7 @@ const PropertyDetails = () => {
 
         {/* yha pr MAP (Google map ka url dala ha ) ha  */}
         <section title="Location">
-          <iframe src="https://www.google.com/maps?q=New York&output=embed" className="w-full h-100 rounded-xl border" loading="lazy"></iframe>
+          <iframe src="https://www.google.com/maps?q=New York&output=embed" className="w-full h-100 rounded-xl border mb-6" loading="lazy"></iframe>
         </section>
 
         {/* yha Agent Card banya ha  */}
@@ -90,7 +90,7 @@ const PropertyDetails = () => {
 
         {/* yha similar property ke liye  */}
         <h2 className="text-2xl font-semibold mb-6">Similar Properties</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3  gap-6">
            {properties.slice(0, 3).map((item) =>(
             <PropertyCard key={item.id} property={item}/>
            ))}
