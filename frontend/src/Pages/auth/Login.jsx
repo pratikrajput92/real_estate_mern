@@ -23,7 +23,7 @@ const Login = () =>{
     };
 
     login(userData);
-     navigate("/admin") 
+     navigate("/") 
   }
 
   return(

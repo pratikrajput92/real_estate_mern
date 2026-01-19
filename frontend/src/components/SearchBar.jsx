@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const SearchBar = () => {
+
+  const navigate = useNavigate();
   return (
     <div className="w-full max-w-3xl mx-auto px-4">
       <div className=" relative  backdrop-blur-md  shadow-xl   rounded-xl p-4 sm:p-6 flex  sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
@@ -23,7 +27,12 @@ const SearchBar = () => {
         <option>$2,000,000</option>
       </select>
 
-      <button className="w-full sm:w-auto bg-blue-700 text-white px-5 py-3 rounded-sm font-semibold hover:bg-blue-800 transition">
+      <button 
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/search");
+        }}
+       className="w-full sm:w-auto bg-blue-700 text-white px-5 py-3 rounded-sm font-semibold hover:bg-blue-800 transition">
         Search
       </button>
     </div>

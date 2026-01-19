@@ -1,8 +1,12 @@
 import React from "react";
 import SearchBar from "./SearchBar";
 import home from "../assets/home.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-[90vh] pt-20 w-full mb-4">
       
@@ -25,7 +29,7 @@ const Hero = () => {
           Search from hundreds of premium properties across your city
         </p>
 
-        <button className="bg-blue-600 w-fit px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+        <button onClick={() => navigate("/search")} className="bg-blue-600 w-fit px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
           Explore Properties
         </button>
       </div>

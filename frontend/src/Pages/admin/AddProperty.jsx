@@ -2,7 +2,7 @@
 const AddProperty = () => {
   return(
      <div>
-       <div className=" bg-white p-4 sm:p-4 rounded shadow w-full max-w-md mx-auto">
+       <div className=" bg-white p-4 mt-4  sm:p-4 rounded shadow w-full max-w-3xl mx-auto">
         <h2 className="text-2xl font-bold mb-6">Add New Property</h2>
 
         <input

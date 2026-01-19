@@ -13,12 +13,14 @@ import AdminProperty from './Pages/admin/AdminProperty';
 import AddProperty from './Pages/admin/AddProperty';
 import Layout from './components/admin2/Layout';
 import PublicLayout from './components/admin2/PublicLayout';
+import Footer from './components/footer';
+import Search from './Pages/Search';
 
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <BrowserRouter >
+      <Routes >
 
         <Route element={<PublicLayout/>}>
           <Route path='/' element={<Home/>} />
@@ -28,6 +30,8 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
           <Route path='/property/:id' element={<PropertyDetails />}/>
+          <Route path="/search" element={<Search/>} />
+
         </Route>
 
         {/* YHA ADMIN ROUTES BANAE HA */}
@@ -39,6 +43,7 @@ function App() {
 
       </Routes>
       
+      <Footer/>
     </BrowserRouter>
   )
 }

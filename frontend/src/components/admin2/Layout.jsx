@@ -1,18 +1,22 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar"
 import Topbar from "./Topbar"
+import { useState } from "react";
 
-const Layout = ({children}) => {
+const Layout = () => {
+
+  const [sideOpen, setSideOpen] = useState(false);
+
+
   return(
-    <div className="flex h-screen bg-gray-100 ">
+    <div className="flex h-screen overflow-hidden bg-gray-100 ">
 
-      <div className="w-20 sm:w-30 md:h-64 lg:w-64  bg-gray-100">
-
-      <Sidebar/>
-    </div>
+       
+      <Sidebar sideOpen={sideOpen} setSideOpen={setSideOpen}/>
+ 
 
       <div className="flex-1 flex flex-col">
-        <Topbar/>
+        <Topbar onMenuClick={() => setSideOpen(true)}/>
 
         <main className="flex-1 p-4 bg-gray-100 overflow-y-auto">
           <Outlet/>

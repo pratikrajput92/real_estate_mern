@@ -7,16 +7,22 @@ const PropertyCard = ({ property }) => {
     return null;
   }
   return (
-    <Link to={`/property/${property.id}`} className="border  rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition transform hover:-translate-y-1">
-      <img
+    <Link
+       to={`/property/${property.id}`}
+      className="flex flex-col self-start border mt-4 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition"
+>
+     <img
         src={property.images[0]}
         alt={property.name}
-        className=" grid w-full lg:h-80  sm:h-[50vh] object-cover"
+        className="w-full h-55 object-cover"
       />
-      <div className="p-4 pt-2">
-        <h2 className="font-bold text-xl">{property.name}</h2>
-        <p className="text-gray-500">{property.location}</p>
-        <p className="text-blue-600 font-semibold mt-2">${property.price}</p>
+
+      <div className="p-4">
+        <h2 className="font-semibold text-lg">{property.name}</h2>
+        <p className="text-gray-500 text-sm">{property.location}</p>
+        <p className="text-blue-600 font-bold mt-1">
+          ₹{property.price}
+        </p>
       </div>
     </Link>
   );
