@@ -31,3 +31,33 @@ const PropertyResults = () => {
 };
 
 export default PropertyResults;
+
+
+// import { useEffect, useState } from "react";
+// import api from "../api/axios";   // ya correct relative path
+
+// const PropertyResult = () => {
+//   const [properties, setProperties] = useState([]);
+
+//   useEffect(() => {
+//     const fetchProperties = async () => {
+//       const res = await api.get("/properties");
+//       setProperties(res.data);
+//     };
+
+//     fetchProperties();
+//   }, []);
+
+//   return (
+//     <div>
+//       {properties.map((p) => (
+//         <div key={p._id}>
+//           <h3>{p.title}</h3>
+//           <p>{p.price}</p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// };
+
+// export default PropertyResult;

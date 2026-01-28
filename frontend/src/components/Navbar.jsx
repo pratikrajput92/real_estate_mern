@@ -61,14 +61,16 @@ const Navbar = () => {
         
         {/* small screen ke liye  */}
         {open && (
-          <div className=" absolute top-16 right-0  md:hidden bg-white shadow-lg px-6 py-4 space-y-4">
+          <div className=" absolute top-16 right-0  md:hidden bg-white shadow-lg px-6 py-4 space-y-4 w-48 flex flex-col items-center">
              <Link onClick={()=> setOpen(false)} to="/" className="block">Home</Link>
              <Link onClick={()=> setOpen(false)} to="/properties" className="block">Properties</Link>
              <Link onClick={()=> setOpen(false)} to="/about" className="block">About</Link>
              <Link onClick={()=> setOpen(false)} to="/contact" className="block">Contact</Link>
 
              {user && user.role === "admin" && (
-              <Link onClick={() => setOpen(false)} to="/admin" >Admin</Link>
+              <Link onClick={() => setOpen(false)} to="/admin"
+               className="block text-blue-700 font-semibold"
+               >Admin</Link>
              )}
 
              {!user ? (

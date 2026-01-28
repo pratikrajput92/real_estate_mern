@@ -15,6 +15,9 @@ import Layout from './components/admin2/Layout';
 import PublicLayout from './components/admin2/PublicLayout';
 import Footer from './components/footer';
 import Search from './Pages/Search';
+import AdminSignup from './Pages/admin/AdminSignup';
+import EditProperty from './Pages/admin/EditProperty';
+import AdminRoute from './routes/AdminRoute';
 
 function App() {
 
@@ -29,6 +32,7 @@ function App() {
           <Route path='/contact' element={<Contact/>} />
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup/>} />
+          <Route path='/admin/signup' element={<AdminSignup/>}/>
           <Route path='/property/:id' element={<PropertyDetails />}/>
           <Route path="/search" element={<Search/>} />
 
@@ -37,8 +41,9 @@ function App() {
         {/* YHA ADMIN ROUTES BANAE HA */}
         <Route path='/admin' element={<Layout/>}>
           <Route index element={<Dashboard/>}/>
-          <Route path='Properties' element={<AdminProperty/>}/>
+          <Route path='Properties' element={<AdminRoute><AdminProperty/></AdminRoute>}/>
           <Route path='add-property' element={<AddProperty/>}/>
+          <Route path='/admin/property/edit/:id' element={<EditProperty />}/>
         </Route>
 
       </Routes>

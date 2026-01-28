@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 const PropertyCard = ({ property }) => {
 
-  if (!property || !property.images || property.images.length === 0) {
+  if (!property?.images?.length ){
     return null;
   }
   return (
     <Link
-       to={`/property/${property.id}`}
+       to={`/property/${property._id}`}
       className="flex flex-col self-start border mt-4 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition"
 >
      <img
@@ -18,7 +18,7 @@ const PropertyCard = ({ property }) => {
       />
 
       <div className="p-4">
-        <h2 className="font-semibold text-lg">{property.name}</h2>
+        <h2 className="font-semibold text-lg">{property.title}</h2>
         <p className="text-gray-500 text-sm">{property.location}</p>
         <p className="text-blue-600 font-bold mt-1">
           ₹{property.price}

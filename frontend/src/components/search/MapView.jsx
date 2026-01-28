@@ -1,7 +1,7 @@
 
 const MapView = ({showList, setShowList}) => {
   return (
-    <div className="w-full h-190 lg:pr-5 sm:h-150
+    <div className="w-full h-190s lg:pr-5 sm:h-150
      rounded-xl overflow-hidden  ">
 
       <iframe

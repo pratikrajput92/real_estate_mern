@@ -17,10 +17,10 @@ const InfoCard = ({icon: Icon, label, value }) => (
   </div>
 );
 
-const Section = ({title, Children}) => (
+const Section = ({title, children}) => (
   <div className="mb-10">
     <h2 className="text-2xl font-semibold mb-4">{title}</h2>
-    {Children}
+    {children}
   </div>
 );
  
@@ -29,11 +29,15 @@ const PropertyDetails = () => {
   const {id} = useParams();
 
   const property = properties.find((p) => p.id === Number(id));
+
+  if(!property){
+    return <div className="text-center mt-10">Property Not Found</div>
+  }
  
   return(
     <div className="max-w-6xl mx-auto px-6  py-10">
         
-        <ImageSlider images={property.images}  />
+        <ImageSlider images={property.images || []}  />
 
          {/* yha pe property ki details ha  */}
         <div className="mt-8">
