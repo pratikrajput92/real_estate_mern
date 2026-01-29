@@ -38,45 +38,46 @@ export class PropertyController {
     
   }
   
-  @Get()
-  getAll(){
-    return  this.propertyService.findAll();
-  }
-   
-  @Get(':id')
-  getOne(@Param('id') id: string){
-    return this.propertyService.findOne(id);
-  }  
 
+  @Get()
+  getPublicProperty() {
+    return this.propertyService.findAll();
+  }
+
+  @Get(':id/public')
+  getOnePublic(@Param('id') id: string) {
+    return this.propertyService.findOne(id);
+  }
+
+  // Admin property list (Admin only)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Get('admin')
+  getAllAdmin() {
+    return this.propertyService.findAll();
+  }
+
+  // Get single property (Admin only)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Get(':id')
+  getOne(@Param('id') id: string) {
+    return this.propertyService.findOne(id);
+  }
+
+  // Update property (Admin only)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Put(':id')
-  update(
-   @Param('id') id: string,
-   @Body() dto: CreatePropertyDto,
-  ) {
+  update(@Param('id') id: string, @Body() dto: CreatePropertyDto) {
     return this.propertyService.update(id, dto);
   }
-  
-   
+
+  // Delete property (Admin only)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
   @Delete(':id')
-  delete(@Param('id') id:string){
+  delete(@Param('id') id: string) {
     return this.propertyService.delete(id);
   }
 }
-
-// @Controller('property')
-// export class PropertyController {
-//   constructor(private readonly propertyService: PropertyService) {}
-
-//   @UseGuards(JwtAuthGuard, RolesGuard)
-//   @Roles('admin')
-//   @Post()
-//   @UseInterceptors(FilesInterceptor('images', 5, { storage))
-//   async create(
-//     @UploadedFiles() files: Express.Multer.File[],
-//     @Body() dto: CreatePropertyDto,
-//   ) {
-//     // Cloudinary returns array of objects, we only need URLs
-//     const images = files.map(file => file.path); // Cloudinary URL
-//     return this.propertyService.create({ ...dto, images });
-//   }
-// }

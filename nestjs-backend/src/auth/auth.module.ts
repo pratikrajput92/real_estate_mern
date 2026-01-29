@@ -13,7 +13,7 @@ import { JwtStrategy } from './jwt.strategy';
       {name: User.name, schema: UserSchema},
     ]),
     JwtModule.register({
-      secret: 'MY_SECRET_KEY',
+      secret: process.env.JWT_SECRET,
       signOptions: {expiresIn: "7d" },
     }),
   ],

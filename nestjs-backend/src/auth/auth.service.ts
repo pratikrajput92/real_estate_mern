@@ -90,20 +90,3 @@ async signupUser (data: any) {
 }
 
 
-//  async signup(name: string, email: string, password: string){
-//     const existing = await this.userModel.findOne({email});
-//     if(existing) {
-//       throw new BadRequestException('Email Already Exists');
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password,10);
-    
-//     const user = new this.userModel({
-//       name,
-//       email,
-//       password: hashedPassword,
-//     });
-
-//     await user.save();
-//     return {message: "User Registered Successfully"};
-//   }

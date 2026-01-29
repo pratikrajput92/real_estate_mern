@@ -16,8 +16,8 @@ export class PropertyService {
     return this.propertyModel.create(dto);
   }
 
-  findAll(){
-    return this.propertyModel.find({isActive: true})
+   async findAll(){
+    return await this.propertyModel.find();
   }
 
   findOne(id: string){

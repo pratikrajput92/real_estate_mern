@@ -24,7 +24,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.useStaticAssets(join(__dirname, '..', 'uploads'));
+  app.useStaticAssets(join(__dirname, '..', 'uploads'),{
+    prefix: '/uploads',
+  });
 
   app.setGlobalPrefix('api');
 
