@@ -5,10 +5,9 @@ import api from "../../api/axios";
 
 const EditProperty = () => {
 
-  const navigate = useNavigate();
-
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     title: "",
@@ -16,14 +15,43 @@ const EditProperty = () => {
     location: "",
   });
 
-  useEffect(() => {
-    fetchProperty();
-  }, []);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  
   const fetchProperty = async () => {
-    const res = await api.get(`/property/${id}`);
-    setForm(res.data);
+      try {
+        const res = await api.get(`/property/${id}`,{
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+
+        });
+
+        setForm({
+          title: res.data.title || "",
+          price: res.data.price || "",
+          location: res.data.location || "",
+        });
+
+
+      } catch (error) {
+        console.error(error);
+        setError("Property Laad Nhi Ho Pari");
+      } finally {
+        setLoading(false);
+      }
   };
+   
+
+  useEffect(() => {
+    if(user?.token && id){
+      fetchProperty(); 
+    } else {
+      setLoading(false);
+    }
+  }, [user, id]);
+
 
   const handleChange = (e) => {
     setForm({...form, [e.target.name]: e.target.value });
@@ -32,21 +60,32 @@ const EditProperty = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await api.put(`/property/${id}`, form, {
-      headers: {
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    try {
+      await api.put(`/property/${id}`, form, {
+         headers: {
+          Authorization: `Bearer ${user.token}`,
+         }
+      });
 
-    alert('Property Updated');
-    navigate('/admin/Properties');
+      alert("Property Update");
+      navigate("/admin/properties");
+
+    } catch (error) {
+       console.error(error);
+      alert("Update failed");
+    }
+   
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p className="text-red-600">{error}</p>;
+
 
  return (
     <form onSubmit={handleSubmit} className="p-6 bg-white rounded shadow">
       <input
         name="title"
-        value={property?.title || ""}
+        value={form.title}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
         placeholder="Title"
@@ -54,7 +93,7 @@ const EditProperty = () => {
 
       <input
         name="price"
-        value={property?.price ||""}
+        value={form.price}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
         placeholder="Price"
@@ -62,7 +101,7 @@ const EditProperty = () => {
 
       <input
         name="location"
-        value={property?.location || ""}
+        value={form.location}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
         placeholder="Location"

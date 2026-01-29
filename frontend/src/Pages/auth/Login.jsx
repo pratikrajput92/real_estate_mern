@@ -22,13 +22,11 @@ const Login = () =>{
         password
       });
        
-      // const {user, token} = res.data;
-      //  // const userData = res.data;
-      // login(user);
+      const userData = {...res.data.user, token: res.data.token}
        
-      login(res.data.user);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem("user",JSON.stringify(res.data.user));
+      login(userData);
+      // localStorage.setItem('token', res.data.token);
+      localStorage.setItem("user",JSON.stringify(userData));
 
       navigate("/");
 
@@ -48,13 +46,15 @@ const Login = () =>{
       
       });
         
-      // const {user, token} = res.data;
-      // // const userData = res.data;
-      // login(user);
+      
+      const userData = {
+          ...res.data.user,
+          token: res.data.token,
+        };
 
-      login(res.data.user);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem("user",JSON.stringify(res.data.user));
+      login(userData);
+      // localStorage.setItem('token', res.data.token);
+      localStorage.setItem("user",JSON.stringify(userData));
 
       // localStorage.setItem('token', token)
 
@@ -67,7 +67,8 @@ const Login = () =>{
     }
   }
 
- 
+   console.log("Admin logged in:", userData);
+
 
   return(
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">

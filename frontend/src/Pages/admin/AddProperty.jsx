@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/axios";
+import { useNavigate } from "react-router-dom";
 
 const AddProperty = () => {
 
   const {user} = useAuth();
+  const navigate = useNavigate();
 
   const [images, setImages] = useState([]);
 
@@ -42,27 +44,7 @@ const AddProperty = () => {
       });
 
 
-      // if (images && images.length > 0) {
-      //     Array.from(images).forEach((img) => {
-      //       formData.append("images", img);
-      //     });
-      //   } else {
-      //     alert("Please upload images");
-      //     return;
-      //   }
-
-
-
-      // if (!Array.isArray(images)) {
-      //     alert("Please select images");
-      //     return;
-      //   }
-
-
-      // for(let i=0; i<images.length; i++){
-      //   formData.append("images", images[i]);
-      // }
-        
+     
       const token = localStorage.getItem('token')
 
       const res = await api.post('/property', formData, {
@@ -71,8 +53,9 @@ const AddProperty = () => {
           // "Content-Type": "multipart/form-data",
             
         },
-        
       });
+       navigate("/admin/properties");
+
       
     console.log(res.data);
     alert("Property Added Successfully");

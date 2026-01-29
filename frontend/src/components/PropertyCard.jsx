@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const PropertyCard = ({ property }) => {
 
-  if (!property?.images?.length ){
+  if (!property){
     return null;
   }
   return (
@@ -12,8 +12,13 @@ const PropertyCard = ({ property }) => {
       className="flex flex-col self-start border mt-4 rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl transition"
 >
      <img
-        src={property.images[0]}
-        alt={property.name}
+        src={
+          property.images?.length?
+           `http://localhost:5000${property.images[0]}`:
+           "/no-image.jpg" 
+          
+        }
+        alt={property.title}
         className="w-full h-55 object-cover"
       />
 

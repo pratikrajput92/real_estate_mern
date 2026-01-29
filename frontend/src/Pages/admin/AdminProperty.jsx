@@ -6,58 +6,48 @@ import { useNavigate } from "react-router-dom";
 
 const AdminProperty = () =>{
 
+  const {user} = useAuth();
   const navigate = useNavigate();
 
-  const {user} = useAuth();
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
 
 
-  useEffect( () => {
-    if(!user?.token) return;
+   console.log("USER =>", user);
+  console.log("LOADING =>", loading);
+
 
     const fetchProperties = async () => {
+
+      if(!user?.token) {
+        console.log("❌ Token missing");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const res = await api.get("/property", {
+        const res = await api.get("/property/admin", {
           headers: {
             Authorization: `Bearer ${user.token}`,
-          }
+          },
          
         });
 
-         setProperties(res.data);
+         console.log("API RESPONSE =>", res.data);
+         setProperties(res.data.data);
 
       } catch (error) {
-        console.error(error);
+        console.error("Failed to fetch properties", error.response || error);
+        alert("Failed to load properties. Check login.");
       } finally {
-        setLoading(false);      }
+        setLoading(false);    
+        }
     }
-    
-    fetchProperties();
-  }, [user]);
-
-  // useEffect(() => {
-  //   if(user && user.token){
-  //      fetchProperties();
-  //   }
    
-  // }, [user]);
-
-  // const fetchProperties = async () =>{
-  //   try {
-  //     const res = await api.get("/property", {
-  //       headers: {
-  //         Authorization: `Bearer ${user.token}`,
-  //       },
-  //     });
-
-  //     setProperties(res.data);
-
-  //   } catch (error) {
-  //      console.error(error);
-  //     alert("Failed to load properties");
-  //   }
-  // };
+   useEffect(() => {
+    fetchProperties();
+   }, []);
+   
 
   const handleDelete = async (id) => {
     if(!window.confirm("Are you sure you want to delete this property?")){
@@ -71,10 +61,12 @@ const AdminProperty = () =>{
         },
       });
 
-      setProperties(properties.filter(() => property._id !== id));
+      setProperties((prev) => 
+        prev.filter((property) => property._id !== id) 
+      );
 
     } catch (error) {
-       console.error(err);
+       console.error(error);
     alert("Delete failed");
     }
   };
@@ -102,6 +94,7 @@ const AdminProperty = () =>{
               <tr key={property._id} className="border-t">
               <td className="p-3">{property.title}</td>
               <td className="p-3">{property.price}</td>
+              <td className="p-3">{property.type}</td>
               <td className="p-3 space-x-3">
                 <button 
                 onClick={() => 

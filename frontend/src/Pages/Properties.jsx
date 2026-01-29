@@ -1,8 +1,37 @@
+import { useEffect, useState } from "react";
 import Filters from "../components/Filters";
 import PropertyCard from "../components/PropertyCard"
-import properties from "../data/properties"
+import api from "../api/axios";
 
 const Properties = () => {
+
+
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchProperties = async () => {
+    try {
+      const res = await api.get("/property");
+      setProperties(res.data);
+
+    } catch (error) {
+      console.error("Failed to fetch properties", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+
+  if(loading) {
+     return <p className="text-center mt-20">Loading properties...</p>;
+
+  }
+
   return (
     <div className="pt-15  bg-gray-50 min-h-screen">
 
