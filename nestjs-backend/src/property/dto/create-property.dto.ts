@@ -30,4 +30,7 @@ export class CreatePropertyDto {
   @IsBoolean()
   @IsOptional()
   isFeatured?: boolean;
+
+  @IsOptional()
+  coordinates?: {lat: number, lng: number};
 }

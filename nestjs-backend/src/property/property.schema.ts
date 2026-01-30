@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { HydratedDocument } from "mongoose";
 
+
+export type Document = HydratedDocument<Property>;
 
 @Schema({timestamps: true})
 
-export class Property extends Document{
+export class Property {
 
   @Prop({ required: true })
   title: string;
@@ -31,6 +33,16 @@ export class Property extends Document{
 
   @Prop({default: true })
   isActive: boolean;
+
+  // Google Map
+  @Prop({
+    type:   {lat: Number, lng: Number},
+    default: {lat: 0, lng: 0},
+  })
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
 }
 
 export const PropertySchema = SchemaFactory.createForClass(Property);

@@ -5,8 +5,7 @@ import { RolesGuard } from '../auth/roles.guard';
 import { Roles } from '../auth/roles.decorators';
 import { PropertyService } from './property.service';
 import { multerConfig } from './multer.config';
-import { put } from 'axios';
-import { CreatePropertyDto } from './dto/create-property.dto';
+import { UpdatePropertyDto } from './dto/update-property.dto';
 
  
 
@@ -34,6 +33,7 @@ export class PropertyController {
     return this.propertyService.create({
       ...body,
       images: imagePaths,
+      coordinates: body.coordinates,
     });
     
   }
@@ -69,8 +69,11 @@ export class PropertyController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: CreatePropertyDto) {
-    return this.propertyService.update(id, dto);
+  update(@Param('id') id: string,
+   @Body() dto: UpdatePropertyDto,) {
+    return this.propertyService.update(id, {
+      ...dto, coordinates: dto.coordinates,
+    });
   }
 
   // Delete property (Admin only)
@@ -79,5 +82,14 @@ export class PropertyController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.propertyService.delete(id);
+  }
+
+
+  // Dashboard
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles('admin')
+  @Get('admin/stats')
+  getDashboardStats(){
+    return this.propertyService.getDashboardStats();
   }
 }
