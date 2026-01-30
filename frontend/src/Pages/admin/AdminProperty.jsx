@@ -30,11 +30,10 @@ const AdminProperty = () =>{
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
-         
         });
 
          console.log("API RESPONSE =>", res.data);
-         setProperties(res.data.data);
+         setProperties(res.data);
 
       } catch (error) {
         console.error("Failed to fetch properties", error.response || error);

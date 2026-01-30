@@ -13,6 +13,8 @@ const EditProperty = () => {
     title: "",
     price: "",
     location: "",
+    type: "",
+    description: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -28,10 +30,14 @@ const EditProperty = () => {
 
         });
 
+        const property = res.data;
+
         setForm({
-          title: res.data.title || "",
-          price: res.data.price || "",
-          location: res.data.location || "",
+          title: property?.title || "",
+          price: property?.price || "",
+          location: property?.location || "",
+          type: property.type ?? "",
+          description: property.description ?? "",
         });
 
 
@@ -61,7 +67,12 @@ const EditProperty = () => {
     e.preventDefault();
 
     try {
-      await api.put(`/property/${id}`, form, {
+      
+      const payload = {
+        ...form, price: Number(form.price),
+      }
+
+      await api.put(`/property/${id}`, payload, {
          headers: {
           Authorization: `Bearer ${user.token}`,
          }
@@ -88,24 +99,43 @@ const EditProperty = () => {
         value={form.title}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
-        placeholder="Title"
-      />
+        placeholder="Title"/>
 
       <input
         name="price"
         value={form.price}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
-        placeholder="Price"
-      />
+        placeholder="Price" />
 
       <input
         name="location"
         value={form.location}
         onChange={handleChange}
         className="border p-2 w-full mb-3"
-        placeholder="Location"
-      />
+        placeholder="Location"/>
+
+              
+      <select
+        name="type"
+        value={form.type}
+        onChange={handleChange}
+        className="border p-2 w-full mb-3">
+
+        <option value="">Select Type</option>
+        <option value="rent">Rent</option>
+        <option value="sale">Sale</option>
+      </select>
+
+      <textarea
+        name="description"
+        value={form.description}
+        onChange={handleChange}
+        className="border p-2 w-full mb-3"
+        placeholder="Description"/>
+
+
+
 
       <button className="bg-blue-600 text-white px-4 py-2 rounded">
         Update

@@ -57,6 +57,9 @@ const PropertyDetails = () => {
   }, [id]);
 
   console.log(property);
+  console.log(property?.coordinates);
+
+
   
 
 
@@ -117,8 +120,14 @@ const PropertyDetails = () => {
 
         {/* yha pr MAP (Google map ka url dala ha ) ha  */}
         <section title="Location">
-          <iframe 
-          src={`https://www.google.com/maps?q=${encodeURIComponent(property.location || "New York")}&output=embed`}className="w-full h-100 rounded-xl border mb-6" loading="lazy"></iframe>
+          {property?.coordinates?.lat !== 0 &&
+             property?.coordinates?.lng !== 0 ? (
+            <iframe 
+          src={`https://www.google.com/maps?q=${property.coordinates.lat},${property.coordinates.lng}&z=15&output=embed`}className="w-full h-100 rounded-xl border mb-6" loading="lazy"></iframe>
+          ): (
+              <p className="text-red-500 text-center">Location not available</p>
+          )}
+          
         </section>
 
         {/* yha Agent Card banya ha  */}

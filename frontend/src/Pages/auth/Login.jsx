@@ -25,7 +25,6 @@ const Login = () =>{
       const userData = {...res.data.user, token: res.data.token}
        
       login(userData);
-      // localStorage.setItem('token', res.data.token);
       localStorage.setItem("user",JSON.stringify(userData));
 
       navigate("/");
@@ -53,10 +52,8 @@ const Login = () =>{
         };
 
       login(userData);
-      // localStorage.setItem('token', res.data.token);
       localStorage.setItem("user",JSON.stringify(userData));
 
-      // localStorage.setItem('token', token)
 
       navigate("/");
     } catch (error) {
@@ -67,7 +64,6 @@ const Login = () =>{
     }
   }
 
-   console.log("Admin logged in:", userData);
 
 
   return(
