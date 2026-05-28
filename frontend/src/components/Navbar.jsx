@@ -4,12 +4,10 @@ import logo2 from "../assets/logo2.png";
 import { useAuth } from "../context/AuthContext";
 // import logo from "../assets/logo.png";
 
+ const Active = "block px-3 py-2 rounded transition hover:bg-gray-100 hover:text-blue-500  "
+
 const Navbar = () => {
-
-
-  const Active = "block px-3 py-2 rounded transition hover:bg-gray-100 hover:text-blue-500  "
-
-     
+   
      const [open, setOpen] = useState(false);
      const {user, logout} = useAuth();
 

@@ -18,8 +18,12 @@ const [filter, setFilter] = useState("all");
 
 const fetchProperties = async () =>{
   try {
-    const res = await api.get('/property');
-    setProperties(res.data);
+    setLoading(true);
+
+   const url = filter === "all" ? "/property" :`/property?category=${filter}`;
+
+   const res = await api.get(url);
+   setProperties(res.data);
 
   } catch (error) {
     console.error('Failed To Fetch Properties', error);
@@ -30,12 +34,10 @@ const fetchProperties = async () =>{
 
 useEffect(()=> {
   fetchProperties();
-}, []);
+}, [filter]);
   
-const filteredProperties = 
-        filter === "all" 
-        ? properties: properties.filter((item) => item.type === filter);
-
+const filteredProperties = properties;
+        
 if (loading) {
   return <p className="text-center mt-20">Loading properties...</p>;
 }
@@ -56,7 +58,7 @@ if (loading) {
           Browse handpicked properties curated by our expert agents.
         </p>
 
-        <FilterBar setFilter={setFilter} />
+        <FilterBar filter={filter} setFilter={setFilter} />
         
       <div className="max-w-full  mx-auto px-6 py-12 grid lg:grid-cols-3 sm:grid-cols-1   items-center justify-center gap-8">
         {filteredProperties.map((property) => (

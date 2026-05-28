@@ -16,18 +16,55 @@ export class PropertyService {
     
   ) {}
 
-  async create(dto: CreatePropertyDto){
+    async create(dto: CreatePropertyDto) {
     const coords = await this.getCoordinates(dto.location);
 
-    return this.propertyModel.create({
-      ...dto,
-      coordinates: coords,
-    });
-  }
+        const propertyData: any = {
+          ...dto,
+        };
 
-  async findAll(){
-    return await this.propertyModel.find();
-  }
+        if (coords && coords.lat && coords.lng) {
+          propertyData.coordinates = coords;
+        }
+
+        return this.propertyModel.create(propertyData);
+      }
+
+
+
+  async findAll(filters: any = {}){
+    const mongoQuery : any = {}; 
+
+    if(filters.category && filters.category !== "all"){
+      mongoQuery.category = filters.category;
+    }
+     
+    if(filters.location) {
+      mongoQuery.location = {
+        $regex: filters.location,
+        $options: "i",
+      };
+    }
+
+    if(filters.minPrice || filters.maxPrice){
+      mongoQuery.price = {};
+      
+      if(filters.minPrice){
+        mongoQuery.price.$gte = Number(filters.minPrice);
+      }
+
+      if(filters.maxPrice){
+        mongoQuery.price.$lte = Number(filters.maxPrice);
+      }
+    }
+
+      if(filters.bedrooms){
+        mongoQuery.bedrooms = Number(filters.bedrooms);
+      }
+    
+    return this.propertyModel.find(mongoQuery);
+
+   }
 
   findOne(id: string){
     return this.propertyModel.findById(id);
@@ -37,68 +74,71 @@ export class PropertyService {
     return this.propertyModel.findByIdAndDelete(id);
   }
 
-  async update(id: string, dto: UpdatePropertyDto) {
+ async update(id: string, dto: UpdatePropertyDto) {
   const updateData: any = { ...dto };
 
-  if (dto.location) {
-    const coords = await this.getCoordinates(dto.location);
-    updateData.coordinates = coords;
-  }
+      if (dto.location) {
+        const coords = await this.getCoordinates(dto.location);
 
-  return this.propertyModel.findByIdAndUpdate(
-    id,
-    updateData,
-    { new: true }
-  );
-}
+        if (coords && coords.lat && coords.lng) {
+          updateData.coordinates = coords;
+        } else {
+          updateData.$unset = { coordinates: "" };
+        }
+      }
+
+      return this.propertyModel.findByIdAndUpdate(id, updateData, { new: true });
+    }
+
 
 
 
    // Google Map
 
-   private async getCoordinates(location: string){
-    
+   private async getCoordinates(location: string) {
     try {
-      const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-       if (!apiKey) {
-      console.log("❌ GOOGLE MAP API KEY MISSING");
-      return { lat: 0, lng: 0 };
-    }
+      const res = await axios.get(
+        "https://nominatim.openstreetmap.org/search",
+        {
+          params: {
+            q: location,
+            format: "json",
+            limit: 1,
+          },
+          headers: {
+            "User-Agent": "real-estate-app", 
+          },
+        }
+      );
 
-      const res = await axios.get( `https://maps.googleapis.com/maps/api/geocode/json`, {params: {address: location, key: apiKey}});
-      console.log("GOOGLE MAPS RESPONSE", res.data);
-
-      console.log("API KEY:", process.env.GOOGLE_MAPS_API_KEY);
-      console.log("LOCATION:", location);
-      console.log("GOOGLE RESPONSE:", res.data);
-
-      if(res.data.status === 'OK'&& res.data.results.length>0){
-        const {lat, lng} = res.data.results[0].geometry.location;
-        return {lat, lng};
+      if (!res.data || res.data.length === 0) {
+        return null;
       }
 
-     
-
+      return {
+        lat: parseFloat(res.data[0].lat),
+        lng: parseFloat(res.data[0].lon),
+      };
     } catch (error) {
-       console.error("Geocoding failed", error);
+      console.error("OSM Geocoding failed", error.message);
+      return null;
     }
-    return {lat: 0, lng: 0};
-   }
-
-  async getDashboardStats() {
-    const users = await this.userModel.countDocuments();
-    const totalProperties = await this.propertyModel.countDocuments();
-    const sold = await this.propertyModel.countDocuments({
-      type: 'sale',
-    });
-
-
-
-    return {
-      users,
-      totalProperties,
-      sold,
-    };
   }
+
+    async getDashboardStats() {
+      const users = await this.userModel.countDocuments();
+      const totalProperties = await this.propertyModel.countDocuments();
+      const sold = await this.propertyModel.countDocuments({
+        type: 'sale',
+      });
+
+
+
+      return {
+        users,
+        totalProperties,
+        sold,
+      };
+    }
 
 }

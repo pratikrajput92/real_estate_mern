@@ -73,6 +73,10 @@ const PropertyDetails = () => {
  
   const BACKEND_URL = "http://localhost:5000";
 
+  const lat = property?.coordinates?.lat;
+  const lng = property?.coordinates?.lng;
+
+
   return(
     <div className="max-w-6xl mx-auto px-6  py-10">
         
@@ -120,15 +124,31 @@ const PropertyDetails = () => {
 
         {/* yha pr MAP (Google map ka url dala ha ) ha  */}
         <section title="Location">
+          {lat && lng && lat !== 0 && lng !== 0 ? (
+            <iframe
+              src={`https://www.openstreetmap.org/export/embed.html?bbox=${
+                lng - 0.01
+              },${lat - 0.01},${lng + 0.01},${lat + 0.01}&layer=mapnik&marker=${lat},${lng}`}
+              className="w-full h-96 rounded-xl border"
+              loading="lazy"
+            />
+          ) : (
+            <p className="text-red-500 text-center">Location not available</p>
+          )}
+        </section>
+
+
+
+        {/* <section title="Location">
           {property?.coordinates?.lat !== 0 &&
              property?.coordinates?.lng !== 0 ? (
             <iframe 
-          src={`https://www.google.com/maps?q=${property.coordinates.lat},${property.coordinates.lng}&z=15&output=embed`}className="w-full h-100 rounded-xl border mb-6" loading="lazy"></iframe>
+          src={`https://www.google.com/maps?q=${property.coordinates.lat},${property.coordinates.lng}&z=15&output=embed`}className="w-full h-99 rounded-xl border mb-6" loading="lazy"></iframe>
           ): (
               <p className="text-red-500 text-center">Location not available</p>
           )}
           
-        </section>
+        </section> */}
 
         {/* yha Agent Card banya ha  */}
 

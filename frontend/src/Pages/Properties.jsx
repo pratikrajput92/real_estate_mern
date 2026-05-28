@@ -8,10 +8,26 @@ const Properties = () => {
 
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+  category: "all",
+  location: "",
+  minPrice: "",
+  maxPrice: "",
+  bedrooms: "",
+});
+
 
   const fetchProperties = async () => {
     try {
-      const res = await api.get("/property");
+      const res = await api.get("/property",{
+        params: {
+          category: filters.category !== "All" ? filters.category : undefined,
+          location : filters.location || undefined,
+          minPrice: filters.minPrice || undefined,
+          maxPrice: filters.maxPrice || undefined,
+          bedrooms: filters.bedrooms || undefined,
+        },
+      });
       setProperties(res.data);
 
     } catch (error) {
@@ -21,10 +37,14 @@ const Properties = () => {
     }
   }
 
+  
 
   useEffect(() => {
-    fetchProperties();
-  }, []);
+    const timer = setTimeout(() => {
+      fetchProperties();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [filters]);
 
 
   if(loading) {
@@ -44,11 +64,11 @@ const Properties = () => {
 
       <div className="max-w-full mx-auto px-8  py-10 grid lg:grid-cols-[280px_1fr] gap-10">
 
-        <Filters/>
+        <Filters filters={filters} setFilters={setFilters}/>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {properties.map((item) => (
-            <PropertyCard key={item.id} property={item} />
+            <PropertyCard key={item._id} property={item} />
           ))}
         </div>
 
@@ -61,32 +81,6 @@ export default Properties;
 
 
 
-
-// const Properties = () => {
-//   return (
-//     <div className="max-w-full overflow-hidden lg:px-24 px-4  mx-auto  pt-24 pb-12">
-
-//        <h1 className="text-4xl font-bold mb-6">All Properties</h1>
-
-//        {/* yha filter ka option bana ha  */}
-
-//        <div className="flex gap-4 mb-8">
-//         <button className="px-4 py-2 border rounded hover:bg-blue-600 hover:text-white">All</button>
-//         <button className="px-4 py-2 border rounded hover:bg-blue-600 hover:text-white">Apartment</button>
-//         <button className="px-4 py-2 border rounded hover:bg-blue-600 hover:text-white">Villa</button>
-//         <button className="px-4 py-2 border rounded hover:bg-blue-600 hover:text-white">House</button>
-
-//        </div>
-
-//        {/* yha Property Grid ha  */}
-//        <div className="grid lg:w-450 grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
-//         {properties.map((item) => (
-//           <PropertyCard key={item.id} property={item}/>
-//         ))}
-//        </div>
-//     </div>
-//   );
-// };
 
 
 

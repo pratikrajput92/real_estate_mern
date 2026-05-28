@@ -72,10 +72,6 @@ async signupUser (data: any) {
     }
   }
 
-  // if(role && user.role !== role)
-  //   throw new UnauthorizedException('unauthorized');
-
-  // 
   const token = this.jwtService.sign({id: user._id, role: user.role });
 
   return{

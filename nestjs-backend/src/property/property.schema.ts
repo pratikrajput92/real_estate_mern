@@ -26,7 +26,14 @@ export class Property {
 
 
   @Prop({enum: ['rent', 'sale'], required: true })
-  type: string;
+  type: 'rent' | 'sale';
+
+  @Prop({ required: true, enum: ['apartment', 'villa', 'house'] })
+   category: 'apartment' | 'villa' | 'house';
+
+  @Prop({ required: true })
+  bedrooms: number;
+
 
   @Prop({default: false})
   isFeatured: boolean;
@@ -37,7 +44,8 @@ export class Property {
   // Google Map
   @Prop({
     type:   {lat: Number, lng: Number},
-    default: {lat: 0, lng: 0},
+  
+    required: false ,
   })
   coordinates: {
     lat: number;

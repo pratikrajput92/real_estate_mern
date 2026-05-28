@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, UseInterceptors, UploadedFiles, Get, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, UseInterceptors, UploadedFiles, Get, Param, Delete, Put, Query } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
@@ -6,6 +6,7 @@ import { Roles } from '../auth/roles.decorators';
 import { PropertyService } from './property.service';
 import { multerConfig } from './multer.config';
 import { UpdatePropertyDto } from './dto/update-property.dto';
+import { CreatePropertyDto } from './dto/create-property.dto';
 
  
 
@@ -21,27 +22,27 @@ export class PropertyController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post()
-  @UseInterceptors(FilesInterceptor('images', 5, {storage: multerConfig.Storage,}))
+  @UseInterceptors(FilesInterceptor('images', 5, {storage: multerConfig.storage,}))
   create(
     @UploadedFiles() files: Express.Multer.File[],
-    @Body() body: any,
+    @Body() body: CreatePropertyDto,
   ) {
     const imagePaths = files.map(
       file => `/uploads/properties/${file.filename}`,
-    );
+    ) || [];
 
     return this.propertyService.create({
       ...body,
       images: imagePaths,
-      coordinates: body.coordinates,
+     
     });
     
   }
   
 
   @Get()
-  getPublicProperty() {
-    return this.propertyService.findAll();
+  getPublicProperty(@Query()Query : any) {
+    return this.propertyService.findAll(Query);
   }
 
   @Get(':id/public')

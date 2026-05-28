@@ -15,12 +15,13 @@ const EditProperty = () => {
     location: "",
     type: "",
     description: "",
+    bedrooms: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
+
   const fetchProperty = async () => {
       try {
         const res = await api.get(`/property/${id}`,{
@@ -38,6 +39,8 @@ const EditProperty = () => {
           location: property?.location || "",
           type: property.type ?? "",
           description: property.description ?? "",
+          bedrooms: property?.bedrooms ?? ""
+
         });
 
 
@@ -70,6 +73,7 @@ const EditProperty = () => {
       
       const payload = {
         ...form, price: Number(form.price),
+        bedrooms: Number(form.bedrooms),
       }
 
       await api.put(`/property/${id}`, payload, {
@@ -114,6 +118,16 @@ const EditProperty = () => {
         onChange={handleChange}
         className="border p-2 w-full mb-3"
         placeholder="Location"/>
+
+      <select name="bedrooms"
+       value={form.bedrooms} 
+       onChange={handleChange}>
+        <option value="">Select Bedrooms</option>
+        <option value="1">1 BHK</option>
+        <option value="2">2 BHK</option>
+        <option value="3">3 BHK</option>
+      </select>
+
 
               
       <select

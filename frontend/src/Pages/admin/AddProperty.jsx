@@ -16,6 +16,8 @@ const AddProperty = () => {
     price: "",
     location: "",
     type: "sale",
+    category: "apartment",
+    bedrooms: "",
 
   });
 
@@ -37,6 +39,10 @@ const AddProperty = () => {
       formData.append('price', Number(form.price) );
       formData.append('location' , form.location);
       formData.append('type', form.type);
+      formData.append('category', form.category.toLowerCase().trim());
+      formData.append("bedrooms", Number(form.bedrooms));
+
+
 
       
       images.forEach(img => {
@@ -50,7 +56,6 @@ const AddProperty = () => {
       const res = await api.post('/property', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          // "Content-Type": "multipart/form-data",
             
         },
       });
@@ -76,8 +81,18 @@ const AddProperty = () => {
           name="title"
           placeholder="Property Title"
           onChange={handleChange}
-          className="w-full border p-3 rounded mb-4"
-        />
+          className="w-full border p-3 rounded mb-4"/>
+          
+        <select
+            name="category"
+            value={form.category}
+            onChange={handleChange}
+            className="w-full border p-3 rounded mb-4">
+            <option value="apartment">Apartment</option>
+            <option value="villa">Villa</option>
+            <option value="house">House</option>
+        </select>
+
 
         <input type="file"
         name="images" multiple
@@ -90,23 +105,33 @@ const AddProperty = () => {
           name="price"
           placeholder="Price"
           onChange={handleChange}
-          className="w-full border p-3 rounded mb-4"
-        />
+          className="w-full border p-3 rounded mb-4"/>
 
         <input
           type="text"
           name="location"
           placeholder="Location"
           onChange={handleChange}
-          className="w-full border p-3 rounded mb-4"
-        />
+          className="w-full border p-3 rounded mb-4"/>
+
+        <select
+            name="bedrooms"
+            value={form.bedrooms}
+            onChange={handleChange}
+            className="w-full border p-3 rounded mb-4">
+            <option value="">Select Bedrooms</option>
+            <option value="1">1 BHK</option>
+            <option value="2">2 BHK</option>
+            <option value="3">3 BHK</option>
+            <option value="4">4+ BHK</option>
+        </select>
+
 
         <textarea
           placeholder="Description"
           name="description"
           onChange={handleChange}
-          className="w-full border p-3 rounded mb-4 h-28"
-        />
+          className="w-full border p-3 rounded mb-4 h-28"/>
 
         <select
           name="type"

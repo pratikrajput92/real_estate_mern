@@ -1,19 +1,19 @@
-import { useAuth } from "../context/AuthContext";
-import { Navigate } from "react-router-dom";
+// import { useAuth } from "../context/AuthContext";
+// import { Navigate } from "react-router-dom";
 
-const ProtectAdmin = ({children}) => {
+// const ProtectAdmin = ({children}) => {
 
-  const {user} = useAuth();
+//   const {user} = useAuth();
 
-  if(!user || user.role !== "admin"){
-    return <Navigate to="/login"/>
-  }
+//   if(!user || user.role !== "admin"){
+//     return <Navigate to="/login"/>
+//   }
 
-  if(user.role !== "admin") {
-    return <Navigate to="/" />;
-  }
+//   if(user.role !== "admin") {
+//     return <Navigate to="/" />;
+//   }
 
-  return children;
-};
+//   return children;
+// };
 
-export default ProtectAdmin;
+// export default ProtectAdmin;

@@ -10,7 +10,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true,
-      // envFilePath: '.env',
     }),
 
     MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/apnaghar_db'),
